@@ -1,0 +1,135 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Arial', sans-serif;
+	background: #faf8ef;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	padding: 20px;
+}
+
+.game-container {
+	max-width: 500px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+h1 {
+	text-align: center;
+	font-size: clamp(2rem, 8vw, 4rem);
+	color: #776e65;
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+
+.score-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.score-container span {
+	background: #bbada0;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: clamp(0.9rem, 3vw, 1.1rem);
+}
+
+#restart-btn {
+	background: #8f7a66;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: clamp(0.9rem, 3vw, 1rem);
+	transition: background 0.3s;
+}
+
+#restart-btn:hover {
+	background: #9f8a76;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+	background: #bbada0;
+	padding: 10px;
+	border-radius: 8px;
+	width: 100%;
+	aspect-ratio: 1;
+}
+
+.grid-row {
+	display: contents;
+}
+
+.grid-cell {
+	background: #cdc1b4;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: clamp(1.5rem, 5vw, 2.5rem);
+	font-weight: bold;
+	color: #776e65;
+	transition: all 0.15s ease-in-out;
+	min-height: 0;
+	aspect-ratio: 1;
+}
+
+.grid-cell:not(:empty) {
+	background: #eee4da;
+	animation: appear 0.2s;
+}
+
+@keyframes appear {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Responsive breakpoints */
+@media (max-width: 600px) {
+	.game-container {
+		max-width: 100%;
+	}
+	
+	.grid-container {
+		gap: 8px;
+		padding: 8px;
+	}
+}
+
+@media (max-width: 400px) {
+	.grid-container {
+		gap: 6px;
+		padding: 6px;
+	}
+	
+	h1 {
+		margin-bottom: 15px;
+	}
+	
+	.score-container {
+		margin-bottom: 15px;
+	}
+}
