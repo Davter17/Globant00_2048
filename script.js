@@ -4,6 +4,18 @@ var gridCells = document.querySelectorAll('.grid-cell');
 var score = document.getElementById('score');
 var restart = document.getElementById('restart-btn');
 
+var randomMovesPower = document.getElementById('random-moves-btn');
+var fillPower = document.getElementById('fill-gaps-btn');
+var duplicatePower = document.getElementById('duplicate-tiles-btn');
+var randomizePower = document.getElementById('randomize-tiles-btn');
+
+var gameMessage = document.getElementById('game-message');
+var messageTitle = document.getElementById('message-title');
+var messageText = document.getElementById('message-text');
+var continueBtn = document.getElementById('continue-btn');
+var restartMessageBtn = document.getElementById('restart-message-btn');
+var hasWon = false;
+
 onload = () => {
 
 	document.addEventListener('keydown', (event) => {
@@ -18,6 +30,67 @@ onload = () => {
 		start();
 	});
 
+	continueBtn.addEventListener('click', () => {
+		hideMessage();
+		gameOver = false;
+	});
+
+	restartMessageBtn.addEventListener('click', () => {
+		hideMessage();
+		start();
+	});
+
+	randomMovesPower.addEventListener('click', () => {
+		let moves = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+		let moveCount = 0;
+		
+		let interval = setInterval(() => {
+			if (moveCount >= 10 || gameOver) {
+				clearInterval(interval);
+				return;
+			}
+			
+			let randomMove = moves[Math.floor(Math.random() * moves.length)];
+			movement(randomMove);
+			moveCount++;
+		}, 500);
+	});
+
+	fillPower.addEventListener('click', () => {
+		for (let i = 0; i < gridCells.length; i++) {
+			if (gridCells[i].textContent === '') {
+				gridCells[i].textContent = 2 * (Math.floor(Math.random() * 2) + 1);
+			}
+		}
+	});
+
+	duplicatePower.addEventListener('click', () => {
+		for (let i = 0; i < gridCells.length; i++) {
+			if (gridCells[i].textContent !== '') {
+				gridCells[i].textContent = parseInt(gridCells[i].textContent) * 2;
+			}
+		}
+		checkGameOver();
+	});
+
+	randomizePower.addEventListener('click', () => {
+		let values = [];
+		let index = [];
+		for (let i = 0; i < gridCells.length; i++) {
+			if (gridCells[i].textContent !== '') {
+				values.push(gridCells[i].textContent);
+				index.push(i);
+				gridCells[i].textContent = '';
+			}
+		}
+		for (let i = 0; i < values.length; i++) {
+			let randIndex = index[Math.floor(Math.random() * index.length)];
+			gridCells[randIndex].textContent = values[i];
+			index = index.filter((value) => value !== randIndex);
+		}
+	});
+
+
 	start();
 }
 
@@ -25,6 +98,7 @@ function start(){
 
 	score.textContent = 0;
 	gameOver = false;
+	hasWon = false;
 	cell1 = Math.floor(Math.random() * gridCells.length);
 	cell2 = Math.floor(Math.random() * gridCells.length);
 	while (cell2 === cell1) {
@@ -140,25 +214,61 @@ function addNewTile() {
 	}
 	else{
 		gameOver = true;
-		alert('Game Over! No more moves possible.');
+		showMessage('Game Over!', 'No more moves possible.', false);
 	}
 }
 
 function checkGameOver() {
-	let emptyCell = true;
+	let emptyCell = false;
 	for (let i = 0; i < gridCells.length; i++) {
-		if (gridCells[i].textContent === '2048') {
+		if (gridCells[i].textContent === '2048' && !hasWon) {
 			gameOver = true;
-			alert('Congratulations! You reached 2048!');
+			hasWon = true;
+			showMessage('Congratulations!', 'You reached 2048!', true);
 		}
 		if (gridCells[i].textContent === '') {
 			emptyCell = true;
 		}
 	}
 	if (!emptyCell) {
-
 		gameOver = true;
-		alert('Game Over! No more moves possible.');
+		for (let i = 0; i < gridCells.length; i++) {
+			let row = Math.floor(i / 4);
+			let col = i % 4;
+			let currentValue = gridCells[i].textContent;
+			
+			// Check right
+			if (col < 3 && gridCells[i + 1].textContent === currentValue) {
+				gameOver = false;
+				break;
+			}
+			// Check down
+			if (row < 3 && gridCells[i + 4].textContent === currentValue) {
+				gameOver = false;
+				break;
+			}
+		}
+		if (gameOver)
+			showMessage('Game Over!', 'No more moves possible.', false);
 	}
 	
+}
+
+function showMessage(title, text, isWin) {
+	messageTitle.textContent = title;
+	messageText.textContent = text;
+	
+	if (isWin) {
+		continueBtn.style.display = 'inline-block';
+	} else {
+		continueBtn.style.display = 'none';
+	}
+	
+	gameMessage.classList.remove('hidden');
+	gameMessage.classList.add('show');
+}
+
+function hideMessage() {
+	gameMessage.classList.remove('show');
+	gameMessage.classList.add('hidden');
 }
