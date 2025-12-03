@@ -10,51 +10,51 @@
 	<div class="game-container">
 		<h1>2048</h1>
 		<div class="score-container">
-		<span>Score: <span id="score">0</span></span>
-		<button id="restart-btn">Restart</button>
+			<span>Score: <span id="score">0</span></span>
+			<button id="restart-btn">Restart</button>
 		</div>
-		<div class="grid-container">
-			<div class="grid-row">
-				<div class="grid-cell" id="cell-0-0"></div>
-				<div class="grid-cell" id="cell-0-1"></div>
-				<div class="grid-cell" id="cell-0-2"></div>
-				<div class="grid-cell" id="cell-0-3"></div>
+		<div class="grid-container" role="grid" aria-label="2048 Game Grid">
+			<div class="grid-row" role="row">
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-0-0"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-0-1"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-0-2"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-0-3"></div>
 			</div>
-			<div class="grid-row">
-				<div class="grid-cell" id="cell-1-0"></div>
-				<div class="grid-cell" id="cell-1-1"></div>
-				<div class="grid-cell" id="cell-1-2"></div>
-				<div class="grid-cell" id="cell-1-3"></div>
+			<div class="grid-row" role="row">
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-1-0"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-1-1"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-1-2"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-1-3"></div>
 			</div>
-			<div class="grid-row">
-				<div class="grid-cell" id="cell-2-0"></div>
-				<div class="grid-cell" id="cell-2-1"></div>
-				<div class="grid-cell" id="cell-2-2"></div>
-				<div class="grid-cell" id="cell-2-3"></div>
+			<div class="grid-row" role="row">
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-2-0"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-2-1"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-2-2"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-2-3"></div>
 			</div>
-			<div class="grid-row">
-				<div class="grid-cell" id="cell-3-0"></div>
-				<div class="grid-cell" id="cell-3-1"></div>
-				<div class="grid-cell" id="cell-3-2"></div>
-				<div class="grid-cell" id="cell-3-3"></div>
+			<div class="grid-row" role="row">
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-3-0"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-3-1"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-3-2"></div>
+				<div class="grid-cell" role="gridcell" aria-label="Empty" id="cell-3-3"></div>
 			</div>
 		</div>
-		
-		<div class="cheat-buttons">
-			<button id="random-moves-btn" class="cheat-btn">10 Random Moves</button>
-			<button id="fill-gaps-btn" class="cheat-btn">Fill Gaps</button>
-			<button id="duplicate-tiles-btn" class="cheat-btn">Duplicate Tiles</button>
-			<button id="randomize-tiles-btn" class="cheat-btn">Randomize Tiles</button>
+
+		<div class="cheat-buttons" role="group" aria-label="Cheat Buttons">
+			<button id="random-moves-btn" class="cheat-btn" aria-label="Perform 10 random moves">10 Random Moves</button>
+			<button id="fill-gaps-btn" class="cheat-btn" aria-label="Fill all empty gaps">Fill Gaps</button>
+			<button id="duplicate-tiles-btn" class="cheat-btn" aria-label="Duplicate all tiles">Duplicate Tiles</button>
+			<button id="randomize-tiles-btn" class="cheat-btn" aria-label="Randomize all tiles">Randomize Tiles</button>
 		</div>
 	</div>
 	
 	<!-- Game Over/Win Modal -->
-	<div id="game-message" class="game-message hidden">
+	<div id="game-message" class="game-message hidden" role="dialog" aria-modal="true" aria-labelledby="message-title">
 		<div class="message-content">
 			<h2 id="message-title"></h2>
 			<p id="message-text"></p>
-			<button id="continue-btn" class="message-btn">Continue</button>
-			<button id="restart-message-btn" class="message-btn">Restart</button>
+			<button id="continue-btn" class="message-btn" aria-label="Continue the game">Continue</button>
+			<button id="restart-message-btn" class="message-btn" aria-label="Restart the game">Restart</button>
 		</div>
 	</div>
 	

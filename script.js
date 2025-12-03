@@ -3,6 +3,7 @@ var gameOver;
 var gridCells = document.querySelectorAll('.grid-cell');
 var score = document.getElementById('score');
 var restart = document.getElementById('restart-btn');
+var lastMerged = null;
 
 var randomMovesPower = document.getElementById('random-moves-btn');
 var fillPower = document.getElementById('fill-gaps-btn');
@@ -53,7 +54,7 @@ onload = () => {
 			let randomMove = moves[Math.floor(Math.random() * moves.length)];
 			movement(randomMove);
 			moveCount++;
-		}, 500);
+		}, 300);
 	});
 
 	fillPower.addEventListener('click', () => {
@@ -176,6 +177,8 @@ function downMovement(){
 }
 
 function movement(direction){
+
+	lastMerged = null;
 	if (direction === 'ArrowUp') {
 		upMovement();
 	}
@@ -193,11 +196,11 @@ function movement(direction){
 }
 
 function mergeCells(merge, empty) {
-	if (merge.textContent === empty.textContent){
-
+	if (merge.textContent === empty.textContent && merge !== lastMerged) {
 		score.textContent = parseInt(score.textContent) + parseInt(merge.textContent) * 2;
 		merge.textContent = parseInt(merge.textContent) * 2;
 		empty.textContent = '';
+		lastMerged = merge;
 	}
 }
 
@@ -237,12 +240,10 @@ function checkGameOver() {
 			let col = i % 4;
 			let currentValue = gridCells[i].textContent;
 			
-			// Check right
 			if (col < 3 && gridCells[i + 1].textContent === currentValue) {
 				gameOver = false;
 				break;
 			}
-			// Check down
 			if (row < 3 && gridCells[i + 4].textContent === currentValue) {
 				gameOver = false;
 				break;
