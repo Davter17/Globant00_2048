@@ -1,0 +1,13 @@
+{
+  "name": "globant-2048",
+  "version": "1.0.0",
+  "description": "Web implementation of the classic 2048 game.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}
