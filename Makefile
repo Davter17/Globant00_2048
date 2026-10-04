@@ -1,51 +1,36 @@
-.PHONY: up down build restart logs clean help
+NAME = globant0
+COMPOSE_FILE = docker/docker-compose.yml
 
-# Comando por defecto
+.PHONY: all build up down clean fclean re logs
+
 all: up
 
-# Levantar el proyecto
-up:
-	@echo "🚀 Levantando el proyecto..."
-	docker-compose up -d --build
-
-# Levantar con logs visibles
-dev:
-	@echo "🚀 Levantando el proyecto en modo desarrollo..."
-	docker-compose up --build
-
-# Bajar el proyecto
-down:
-	@echo "🛑 Bajando el proyecto..."
-	docker-compose down
-
-# Reconstruir desde cero
 build:
-	@echo "🔨 Reconstruyendo el proyecto..."
-	docker-compose build --no-cache
+	@printf "  \033[33m⚙\033[0m  Building Docker images...\n"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) build
+	@printf "  \033[32m✓\033[0m Images built → $(NAME)\n"
 
-# Reiniciar el proyecto
-restart: down
-	@docker-compose up -d --build
-	@echo "🔄 Proyecto reiniciado"
+up: build
+	@printf "  \033[33m⚙\033[0m  Starting containers...\n"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) up -d
+	@printf "  \033[32m✓\033[0m Containers running → http://localhost:4243\n"
 
-# Ver logs
+down:
+	@printf "  \033[33m⚙\033[0m  Stopping containers...\n"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) down
+	@printf "  \033[32m✓\033[0m Containers stopped → $(NAME)\n"
+
+clean: down
+	@printf "  \033[31m✗\033[0m  Removing containers...\n"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) rm -f
+	@printf "  \033[32m✓\033[0m Containers removed → $(NAME)\n"
+
+fclean: clean
+	@printf "  \033[31m✗\033[0m  Removing images and volumes...\n"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) down -v --rmi local
+	@printf "  \033[32m✓\033[0m Images and volumes removed → $(NAME)\n"
+
+re: fclean all
+
 logs:
-	@echo "📋 Mostrando logs..."
-	docker-compose logs -f
-
-# Limpiar contenedores, volúmenes e imágenes
-clean:
-	@echo "🧹 Limpiando contenedores, volúmenes e imágenes..."
-	docker-compose down -v --rmi all
-
-# Ayuda
-help:
-	@echo "📖 Comandos disponibles:"
-	@echo "  make up       - Levantar el proyecto en segundo plano"
-	@echo "  make dev      - Levantar el proyecto con logs visibles"
-	@echo "  make down     - Bajar el proyecto"
-	@echo "  make build    - Reconstruir el proyecto desde cero"
-	@echo "  make restart  - Reiniciar el proyecto"
-	@echo "  make logs     - Ver logs del proyecto"
-	@echo "  make clean    - Limpiar contenedores, volúmenes e imágenes"
-	@echo "  make help     - Mostrar esta ayuda"
+	@docker compose -f $(COMPOSE_FILE) --project-name $(NAME) logs -f

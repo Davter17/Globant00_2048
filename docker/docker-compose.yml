@@ -1,7 +1,9 @@
 services:
 
   nginx:
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     ports:
       - "4243:80"
     restart: always

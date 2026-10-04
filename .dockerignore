@@ -1,11 +1,10 @@
 .git
 .gitignore
+.dockerignore
 node_modules
 tests
 coverage
 *.md
-Dockerfile
-docker-compose.yml
-.dockerignore
+docker
 package.json
 package-lock.json
